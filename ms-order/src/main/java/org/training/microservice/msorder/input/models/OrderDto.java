@@ -1,5 +1,6 @@
 package org.training.microservice.msorder.input.models;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class OrderDto {
     private String customerPhone;
     @NotNull
     @Size(min = 1)
+    @Valid
     private List<MealDto> meals;
 
 }
