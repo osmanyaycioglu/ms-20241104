@@ -19,11 +19,11 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 @RequiredArgsConstructor
 public class AccountingIntegration {
-    private final RestTemplate restTemplate;
-    private final EurekaClient eurekaClient;
-    private       AtomicLong   index = new AtomicLong();
-    private List<String> strings = Collections.synchronizedList(new ArrayList<>());
-    private Map<String,String> stringStringMap = new ConcurrentHashMap<>();
+    private final RestTemplate        restTemplate;
+    private final EurekaClient        eurekaClient;
+    private       AtomicLong          index           = new AtomicLong();
+    private       List<String>        strings         = Collections.synchronizedList(new ArrayList<>());
+    private       Map<String, String> stringStringMap = new ConcurrentHashMap<>();
 
     public String pay(BigDecimal amount,
                       String transId,
@@ -45,15 +45,15 @@ public class AccountingIntegration {
         pr.setAmount(amount);
         pr.setTransId(transId);
         pr.setOrderId(orderId);
-        Application        applicationLoc = eurekaClient.getApplication("ACCOUNTING");
-        List<InstanceInfo> instancesLoc   = applicationLoc.getInstances();
-        int          pointer         = (int) (index.incrementAndGet() % instancesLoc.size());
-        InstanceInfo instanceInfoLoc = instancesLoc.get(pointer);
-        RestTemplate restTemplateLoc = new RestTemplate();
+        Application        applicationLoc  = eurekaClient.getApplication("ACCOUNTING");
+        List<InstanceInfo> instancesLoc    = applicationLoc.getInstances();
+        int                pointer         = (int) (index.incrementAndGet() % instancesLoc.size());
+        InstanceInfo       instanceInfoLoc = instancesLoc.get(pointer);
+        RestTemplate       restTemplateLoc = new RestTemplate();
         PaymentResponse paymentResponseLoc = restTemplateLoc.postForObject("http://"
                                                                            + instanceInfoLoc.getIPAddr()
                                                                            + ":"
-                                                                           + instanceInfoLoc.getPort()
+                                                                           + instanceInfoLoc.getPort() +
                                                                            "/api/v1/payment/operations/pay",
                                                                            pr,
                                                                            PaymentResponse.class);
