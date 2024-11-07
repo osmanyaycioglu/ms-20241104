@@ -57,3 +57,16 @@ resilience4j:
         max-attempts: 3
         wait-duration: 10ms
         retry-exception-predicate: org.training.microservice.mscommon.error.client.RetryExpPredicate
+  circuitbreaker:
+    instances:
+      my-cb-1:
+        sliding-window-type: count_based
+        sliding-window-size: 20
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 30
+        wait-duration-in-open-state: 2s
+        automatic-transition-from-open-to-half-open-enabled: false
+        permitted-number-of-calls-in-half-open-state: 10
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 250ms
+

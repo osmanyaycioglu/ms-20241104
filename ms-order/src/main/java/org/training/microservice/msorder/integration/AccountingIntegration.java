@@ -3,6 +3,7 @@ package org.training.microservice.msorder.integration;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -84,6 +85,7 @@ public class AccountingIntegration {
         return payLoc.getDesc();
     }
 
+    @CircuitBreaker(name = "my-cb-1")
     public String pay4(BigDecimal amount,
                        String transId,
                        String orderId) {
