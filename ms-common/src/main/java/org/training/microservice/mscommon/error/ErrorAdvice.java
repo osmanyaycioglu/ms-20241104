@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.util.stream.Collectors;
 
@@ -21,6 +22,15 @@ public class ErrorAdvice {
         return ErrorObj.builder()
                        .withDescParam(exp.getMessage())
                        .withErrorCodeParam(1010)
+                       .build();
+    }
+
+    @ExceptionHandler(RestClientResponseException.class)
+    @ResponseStatus(HttpStatus.ALREADY_REPORTED)
+    public ErrorObj handle(RestClientResponseException exp) {
+        return ErrorObj.builder()
+                       .withDescParam(exp.getMessage())
+                       .withErrorCodeParam(2055)
                        .build();
     }
 

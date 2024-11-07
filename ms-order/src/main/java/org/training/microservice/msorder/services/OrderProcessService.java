@@ -17,9 +17,40 @@ public class OrderProcessService {
         orderParam.setOrderId(UUID.randomUUID()
                                   .toString());
         return accountingIntegration.pay(new BigDecimal(1000),
-                                                  UUID.randomUUID()
-                                                      .toString(),
-                                                  orderParam.getOrderId());
+                                         UUID.randomUUID()
+                                             .toString(),
+                                         orderParam.getOrderId());
 
     }
+
+    public String placeOrder2(Order orderParam) {
+        orderParam.setOrderId(UUID.randomUUID()
+                                  .toString());
+        return accountingIntegration.pay2(new BigDecimal(1000),
+                                          UUID.randomUUID()
+                                              .toString(),
+                                          orderParam.getOrderId());
+
+    }
+
+    public String placeOrder3(Order orderParam) {
+        orderParam.setOrderId(UUID.randomUUID()
+                                  .toString());
+        return accountingIntegration.pay2(new BigDecimal(1000),
+                                          UUID.randomUUID()
+                                              .toString(),
+                                          orderParam.getOrderId());
+
+    }
+
+    public String placeOrder4(Order orderParam) {
+        orderParam.setOrderId(UUID.randomUUID()
+                                  .toString());
+        return accountingIntegration.pay4(new BigDecimal(1000),
+                                          UUID.randomUUID()
+                                              .toString(),
+                                          orderParam.getOrderId());
+    }
+
 }
+

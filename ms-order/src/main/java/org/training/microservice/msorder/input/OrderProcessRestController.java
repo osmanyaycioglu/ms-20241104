@@ -35,6 +35,42 @@ public class OrderProcessRestController {
                           .build();
     }
 
+    @PostMapping("/place2")
+    public OrderResult placeOrder2(@Valid @RequestBody OrderDto orderDtoParam) {
+        Order  orderLoc = IOrderMapper.ORDER_MAPPER.toOrder(orderDtoParam);
+        String sLoc = orderProcessService.placeOrder2(orderLoc);
+        return OrderResult.builder()
+                          .withOrderId(orderLoc.getOrderId())
+                          .withDeliveryTime(ZonedDateTime.now()
+                                                         .plusHours(1))
+                          .withNote(sLoc)
+                          .build();
+    }
+
+    @PostMapping("/place3")
+    public OrderResult placeOrder3(@Valid @RequestBody OrderDto orderDtoParam) {
+        Order  orderLoc = IOrderMapper.ORDER_MAPPER.toOrder(orderDtoParam);
+        String sLoc = orderProcessService.placeOrder3(orderLoc);
+        return OrderResult.builder()
+                          .withOrderId(orderLoc.getOrderId())
+                          .withDeliveryTime(ZonedDateTime.now()
+                                                         .plusHours(1))
+                          .withNote(sLoc)
+                          .build();
+    }
+
+    @PostMapping("/place4")
+    public OrderResult placeOrder4(@Valid @RequestBody OrderDto orderDtoParam) {
+        Order  orderLoc = IOrderMapper.ORDER_MAPPER.toOrder(orderDtoParam);
+        String sLoc = orderProcessService.placeOrder4(orderLoc);
+        return OrderResult.builder()
+                          .withOrderId(orderLoc.getOrderId())
+                          .withDeliveryTime(ZonedDateTime.now()
+                                                         .plusHours(1))
+                          .withNote(sLoc)
+                          .build();
+    }
+
     @GetMapping("/suspend")
     public SuspendResult suspendOrder(@NotBlank @RequestParam String orderId) {
         return new SuspendResult("OK");

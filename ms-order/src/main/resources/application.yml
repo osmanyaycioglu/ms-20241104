@@ -1,0 +1,59 @@
+info:
+  deneme:
+    app:
+      name: ${spring.application.name}
+      version: '@project.version@'
+    osman: 12234
+management:
+  endpoint:
+    configprops:
+      show-values: always
+    env:
+      show-values: always
+    health:
+      show-components: always
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+server:
+  error:
+    include-binding-errors: always
+    include-exception: true
+    include-message: always
+  port: ${xyz:10000}
+spring:
+  application:
+    name: order
+  cloud:
+    loadbalancer:
+      health-check:
+        initial-delay: 1s
+        interval: 1s
+      retry:
+        enabled: true
+        max-retries-on-next-service-instance: 3
+        max-retries-on-same-service-instance: 0
+        retry-on-all-exceptions: true
+        retry-on-all-operations: true
+  config:
+    import: configserver:http://127.0.0.1:8888
+resilience4j:
+  retry:
+    instances:
+      my-retry-1:
+        base-config: base1
+        result-predicate: org.training.microservice.msorder.integration.resiliency.ResultPred
+      my-retry-2:
+        base-config: base1
+      my-retry-3:
+        base-config: base1
+    configs:
+      base1:
+        max-attempts: 3
+        wait-duration: 10ms
+        retry-exception-predicate: org.training.microservice.mscommon.error.client.RetryExpPredicate
