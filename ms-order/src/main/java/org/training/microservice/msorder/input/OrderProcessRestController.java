@@ -12,6 +12,7 @@ import org.training.microservice.msorder.input.models.OrderResult;
 import org.training.microservice.msorder.input.models.Response;
 import org.training.microservice.msorder.input.models.SuspendResult;
 import org.training.microservice.msorder.services.OrderProcessService;
+import org.training.microservice.msorder.services.models.Order;
 
 import java.time.ZonedDateTime;
 
@@ -24,12 +25,13 @@ public class OrderProcessRestController {
 
     @PostMapping("/place")
     public OrderResult placeOrder(@Valid @RequestBody OrderDto orderDtoParam) {
-        orderProcessService.placeOrder(IOrderMapper.ORDER_MAPPER.toOrder(orderDtoParam));
+        Order  orderLoc = IOrderMapper.ORDER_MAPPER.toOrder(orderDtoParam);
+        String sLoc = orderProcessService.placeOrder(orderLoc);
         return OrderResult.builder()
-                          .withOrderId("o1")
+                          .withOrderId(orderLoc.getOrderId())
                           .withDeliveryTime(ZonedDateTime.now()
                                                          .plusHours(1))
-                          .withNote("test")
+                          .withNote(sLoc)
                           .build();
     }
 

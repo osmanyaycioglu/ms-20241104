@@ -13,10 +13,10 @@ import java.util.UUID;
 public class OrderProcessService {
     private final AccountingIntegration accountingIntegration;
 
-    public void placeOrder(Order orderParam) {
+    public String placeOrder(Order orderParam) {
         orderParam.setOrderId(UUID.randomUUID()
                                   .toString());
-        String payLoc = accountingIntegration.pay(new BigDecimal(1000),
+        return accountingIntegration.pay(new BigDecimal(1000),
                                                   UUID.randomUUID()
                                                       .toString(),
                                                   orderParam.getOrderId());
