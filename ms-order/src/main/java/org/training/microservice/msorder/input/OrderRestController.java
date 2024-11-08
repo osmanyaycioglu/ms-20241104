@@ -1,11 +1,21 @@
 package org.training.microservice.msorder.input;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/order")
 public class OrderRestController {
+
+    @Value("${a.b.c}")
+    private String abc;
+
+    @GetMapping("/test1")
+    public String method(){
+        return abc;
+    }
 
     public void insert(){
     }
