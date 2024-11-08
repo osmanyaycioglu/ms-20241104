@@ -36,7 +36,7 @@ public class AccountingIntegration {
     private       List<String>           strings         = Collections.synchronizedList(new ArrayList<>());
     private       Map<String, String>    stringStringMap = new ConcurrentHashMap<>();
 
-    @Retry(name = "my-retry-1")
+    @Retry(name = "my-retry-1", fallbackMethod = "payFallback")
     public String pay(BigDecimal amount,
                       String transId,
                       String orderId) {
@@ -49,6 +49,13 @@ public class AccountingIntegration {
                                                                         pr,
                                                                         PaymentResponse.class);
         return paymentResponseLoc.getDesc();
+    }
+
+    public String payFallback(BigDecimal amount,
+                              String transId,
+                              String orderId,
+                              Throwable throwableParam) {
+        return "Fallback success";
     }
 
     // @Retry(name = "my-retry-1")
@@ -85,7 +92,7 @@ public class AccountingIntegration {
         return payLoc.getDesc();
     }
 
-    @CircuitBreaker(name = "my-cb-1")
+    @CircuitBreaker(name = "my-cb-1" ,fallbackMethod = "payFallback")
     public String pay4(BigDecimal amount,
                        String transId,
                        String orderId) {

@@ -1,0 +1,25 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: ${xyz:8080}
+spring:
+  application:
+    name: apigw-order
+  config:
+    import: configserver:http://127.0.0.1:8888
+  cloud:
+    gateway:
+      routes:
+        - id: route66
+          uri: lb://ORDER
+          predicates:
+            - Path=/apigw/api/*/order/**
+            - name: CheckToken
+              args:
+                subject: osman
+          filters:
+            - RewritePath=/apigw/?(?<segment>.*), /$\{segment}
+            - Logging= debug, try

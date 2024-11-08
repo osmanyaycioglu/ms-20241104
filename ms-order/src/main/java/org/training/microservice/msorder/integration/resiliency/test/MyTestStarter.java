@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class MyTestStarter implements CommandLineRunner {
     private final MyCalleeBean           myCalleeBean;
@@ -15,6 +15,13 @@ public class MyTestStarter implements CommandLineRunner {
     @Override
     public void run(final String... args) throws Exception {
         CircuitBreaker circuitBreakerLoc = circuitBreakerRegistry.circuitBreaker("my-cb-1");
+
+        circuitBreakerLoc.getEventPublisher()
+                         .onStateTransition(ec -> System.out.println("*-*-*-*-*-* State changed : "
+                                                                     + ec.getStateTransition()
+                                                                         .toString()))
+                         .onSuccess(ec -> System.out.println("*-*-*-*-*-* Success : " + ec.toString()))
+                         .onError(ec -> System.out.println("*-*-*-*-*-* Error : " + ec.toString()));
 
         for (int i = 0; i < 100; i++) {
             try {

@@ -3,6 +3,7 @@ package org.training.microservice.msorder.input;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class OrderProcessRestController {
     private final OrderProcessService orderProcessService;
+
+    @Value("${server.port}")
+    private int port;
 
     @PostMapping("/place")
     public OrderResult placeOrder(@Valid @RequestBody OrderDto orderDtoParam) {
@@ -67,7 +71,7 @@ public class OrderProcessRestController {
                           .withOrderId(orderLoc.getOrderId())
                           .withDeliveryTime(ZonedDateTime.now()
                                                          .plusHours(1))
-                          .withNote(sLoc)
+                          .withNote(sLoc + " order port : " + port)
                           .build();
     }
 
