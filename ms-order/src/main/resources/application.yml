@@ -26,6 +26,7 @@ server:
     include-exception: true
     include-message: always
   port: ${xyz:10000}
+  shutdown: graceful
 spring:
   application:
     name: order
@@ -69,4 +70,3 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 10
         slow-call-rate-threshold: 50
         slow-call-duration-threshold: 250ms
-
